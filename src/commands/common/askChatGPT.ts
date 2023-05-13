@@ -18,10 +18,12 @@ export default new Command({
         await interaction.deferReply();
 
         const message = options.getString('question', true);
-        const answer = await AskChatGPT({ role: 'user', content: message });
+        const answer =
+            (await AskChatGPT({ role: 'user', content: message }, interaction.guild?.id || '')) ||
+            `❌ An error occurred, please try again later`;
 
         const content = `> ${message}
-        \`\`\`${answer}\`\`\` `;
+            \`\`\`${answer}\`\`\` `;
 
         interaction.editReply({ content: content });
     },

@@ -1,5 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai';
 import { ChatGPTMessageType } from '../structs/types/ChatGPTMessage';
+import { getInteractions, saveInteraction } from './mongoDB';
 
 const openAI = new OpenAIApi(
     new Configuration({
@@ -7,24 +8,25 @@ const openAI = new OpenAIApi(
     })
 );
 
-const messages: Array<ChatGPTMessageType> = [];
+async function AskChatGPT(message: ChatGPTMessageType, guildId: string): Promise<string | false> {
+    await saveInteraction(guildId, message);
 
-function AskChatGPT(message: ChatGPTMessageType): Promise<string> {
-    messages.push(message);
+    const interactions = (await getInteractions(guildId)) as Array<ChatGPTMessageType>;
 
     return new Promise((resolve, reject) => {
         openAI
             .createChatCompletion({
                 model: 'gpt-3.5-turbo',
-                messages: [...messages],
+                messages: [...interactions],
             })
             .then(res => {
                 const message = res.data.choices[0].message?.content || '';
-                messages.push({ role: 'assistant', content: message });
-                resolve(message);
+                saveInteraction(guildId, { role: 'assistant', content: message })
+                    .then(() => resolve(message))
+                    .catch(error => resolve(`error: ${error}`));
             })
-            .catch(error => {
-                reject(`Error: ${error}`);
+            .catch(() => {
+                reject(false);
             });
     });
 }
