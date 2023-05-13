@@ -10,5 +10,5 @@ Videos I watched to learn how to create the bot and how to integrate it:
 Future implementations:
 <ul>
  <li>Deploy the bot on a cloud platform</li>
- <li>Integration with a cloud database to store the messages</li>
+ <li><strike>Integration with a cloud database to store the messages</strike></li>
 </ul>
