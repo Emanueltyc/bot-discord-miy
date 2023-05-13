@@ -6,3 +6,9 @@ Videos I watched to learn how to create the bot and how to integrate it:
   <li><a href="https://www.youtube.com/watch?v=4qNwoAAfnk4">How To Build Your Own AI With ChatGPT API</a></li>
   <li><a href="https://www.youtube.com/watch?v=LX_DXLlaymg&t=665s">Beginners Guide to GPT4 API & ChatGPT 3.5 Turbo API Tutorial</a></li>
 </ul>
+
+Future implementations:
+<ul>
+ <li>Deploy the bot on a cloud platform</li>
+ <li>Integration with a cloud database to store the messages</li>
+</ul>
